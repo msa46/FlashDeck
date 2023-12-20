@@ -13,9 +13,9 @@ const Edit = () => {
     const [label, setLabel] = useState("label")
     const [answer, setAnswer] = useState("answer")
     const [index, setIndex] = useState(0)
-    const [canGoNext, setCanGoNext] = useState(true)
+    const [canGoNext, setCanGoNext] = useState(false)
     const [canGoprev, setCanGoPrev] = useState(false)
-    const [canAddCard, setCanAddCard] = useState(true)
+    const [canAddCard, setCanAddCard] = useState(false)
     // const [submitName, setSubmitName] = useState("save")
 
     const {register, handleSubmit, reset} = useForm<FlashCard>()
@@ -94,8 +94,11 @@ const Edit = () => {
                 setQuestion(flashCards[0]["question"])
                 setLabel(flashCards[0]["label"])
                 setAnswer(flashCards[0]["answer"])
-                if (Object.keys(flashCards).length <= 1 ) {
-                    setCanGoNext(false)
+                console.log("object length", Object.keys(flashCards).length)
+                if (Object.keys(flashCards).length > 1 ) {
+                    console.log("can go next?")
+                    setCanGoNext(true)
+                    setCanAddCard(true)
                 }
         }
 
