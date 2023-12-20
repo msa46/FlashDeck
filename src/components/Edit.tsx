@@ -9,9 +9,9 @@ import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
 
 const Edit = () => {
     const [flashCards, setFlashCards] = useState<FlashCard[]>(JSON.parse(localStorage.getItem("flashCards") || '{}'))
-    const [question, setQuestion] = useState(flashCards[0]["question"] || "question")
-    const [label, setLabel] = useState(flashCards[0]["label"] || "label")
-    const [answer, setAnswer] = useState(flashCards[0]["answer"] || "answer")
+    const [question, setQuestion] = useState("question")
+    const [label, setLabel] = useState("label")
+    const [answer, setAnswer] = useState("answer")
     const [index, setIndex] = useState(0)
     const [canGoNext, setCanGoNext] = useState(true)
     const [canGoprev, setCanGoPrev] = useState(false)
@@ -21,7 +21,6 @@ const Edit = () => {
     const {register, handleSubmit, reset} = useForm<FlashCard>()
 
     const onSubmit: SubmitHandler<FlashCard> = (data) =>{
-        console.log(data)
         const tempFlashCard = {
             "question": data["question"],
             "label": data["label"],
@@ -91,14 +90,12 @@ const Edit = () => {
         if (flashCards !== undefined) {
             // const tempFlashCards = Object.keys(flashCards).map((key) => [key, flashCards[key]])
             // setFlashCards(tempFlashCards)
-            if (flashCards && flashCards?.length !== 0){
-                console.log("flashCards are: ", Object.keys(flashCards))
+            if (flashCards && Object.keys(flashCards).length !== 0){
                 setQuestion(flashCards[0]["question"])
                 setLabel(flashCards[0]["label"])
                 setAnswer(flashCards[0]["answer"])
                 if (Object.keys(flashCards).length <= 1 ) {
                     setCanGoNext(false)
-                    console.log("can go next is:", canGoNext)
                 }
         }
 
