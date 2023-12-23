@@ -11,7 +11,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@prisma/client": "^5.7.1",
+    "@vercel/node": "^3.0.14",
     "lucide-react": "^0.294.0",
+    "prisma": "^5.7.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.49.0"
