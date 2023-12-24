@@ -1,0 +1,28 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_PRISMA_URL")
+   directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+model FlashCard {
+  id Int @id @default(autoincrement())
+  question String
+  label String?
+  answer String
+  deck FlashDeck @relation(fields:[flashDeckPublicId], references: [pId])
+  flashDeckPublicId Int
+}
+
+model FlashDeck {
+  id String @id @default(uuid())
+  pId Int @unique @default(autoincrement())
+  signedSecret String 
+  flashCards FlashCard[]
+}
