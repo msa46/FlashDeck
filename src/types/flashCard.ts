@@ -2,5 +2,6 @@ export type FlashCard = {
     question: string
     answer: string
     label: string
-    id? : string
+    id? : number
+    pid? : string
 }

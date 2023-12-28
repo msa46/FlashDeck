@@ -14,7 +14,7 @@ datasource db {
 model FlashCard {
   id Int @id @default(autoincrement())
   question String
-  label String?
+  label String
   answer String
   deck FlashDeck @relation(fields:[flashDeckPublicId], references: [pId])
   flashDeckPublicId Int

@@ -46,6 +46,7 @@ const FlashCards = () => {
         if (flashCard) {
             tempFlashCards.splice(givenIndex, 0, flashCard)
             setFlashCards(tempFlashCards)
+            localStorage.setItem("flashCards", JSON.stringify(tempFlashCards))
             setRevealed(false)
             const endIndex = flashCards.length -  1
             console.log("data are ", index, flashCards)

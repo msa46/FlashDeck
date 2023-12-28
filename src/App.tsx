@@ -5,6 +5,7 @@ import {  divider, hstack, vstack } from "../styled-system/patterns"
 
 import Edit from "./components/Edit"
 import FlashCards from "./components/FlashCards"
+import { v4 } from 'uuid'
 
 
 function App() {
@@ -16,6 +17,13 @@ function App() {
   
   const onEditClick = () => {
     setPage("edit")
+  }
+  
+  if (localStorage.getItem("pid") === null ){
+    const pid = v4()
+    
+    localStorage.setItem("pid", pid)
+
   }
 
   const navButtonStyle = css({
