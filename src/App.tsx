@@ -5,7 +5,11 @@ import {  divider, hstack, vstack } from "../styled-system/patterns"
 
 import Edit from "./components/Edit"
 import FlashCards from "./components/FlashCards"
+import Sync from "./components/Sync"
+
 import { v4 } from 'uuid'
+import { AES } from 'crypto-js'
+
 
 
 function App() {
@@ -18,11 +22,19 @@ function App() {
   const onEditClick = () => {
     setPage("edit")
   }
+
+  const onSyncClick = () => {
+    setPage("sync")
+  }
   
   if (localStorage.getItem("pid") === null ){
     const pid = v4()
+    const key = v4()
+    const signedSecret = AES.encrypt(pid, key).toString()
     
     localStorage.setItem("pid", pid)
+    localStorage.setItem("key", key)
+    localStorage.setItem("signedSecret", signedSecret)
 
   }
 
@@ -66,12 +78,24 @@ function App() {
       <button className={navButtonStyle} onClick={onEditClick}>
         edit
       </button>
+      <div className={divider({
+        orientation: "vertical", 
+        color: "gray",
+        h: "70%",
+        w:"1",
+
+        // m: "2",
+        
+      })} 
+      />
+         <button className={navButtonStyle} onClick={onSyncClick}>
+        sync
+      </button>
     </div>
-    {page === "main" ? 
-      <FlashCards />
-      :
-      <Edit />
-    }
+    {(page === "main") && <FlashCards/>}
+    {(page === "edit") && <Edit />}
+    {(page === "sync") && <Sync />}
+
       
     </div>
   )
