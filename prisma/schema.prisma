@@ -23,6 +23,6 @@ model FlashCard {
 model FlashDeck {
   id String @id @default(uuid())
   pId Int @unique @default(autoincrement())
-  signedSecret String 
+  signedSecret String? 
   flashCards FlashCard[]
 }
