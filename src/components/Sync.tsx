@@ -8,10 +8,10 @@ import { vstack } from '../../styled-system/patterns'
 
 
 const Sync = () => {
-    const baseUrl = import.meta.env.VITE_APP_URL + "/api/flashDeck"
+    const baseUrl = import.meta.env.VITE_API_URL + "/api/flashDeck/"
     const deckUrl = baseUrl + localStorage.getItem("pid")
     const [newPid, setNewPid] = useState(localStorage.getItem("sync") || "create")
-    const [prevSyncState, setPrevSyncState] = useState("create")
+    // const [prevSyncState, setPrevSyncState] = useState("create")
     const [url, setUrl] = useState(baseUrl)
     const [method, setMethod] = useState("POST")
    
@@ -21,40 +21,38 @@ const Sync = () => {
                 method: method,
                 url: url,
                 data: {
-                    pid: localStorage.getItem("pid"),
-                    flashCards: localStorage.getItem("flashCards"),
+                    pid: Number(localStorage.getItem("pid")),
+                    flashCards: JSON.parse(localStorage.getItem("flashCards") || ""),
                     signedSecret: localStorage.getItem("signedSecret"),
                 }
             })
-
+        
+        },
+        onSuccess: (response) => {
+            if (localStorage.getItem("create")){
+                localStorage.setItem("flashCards", JSON.stringify(response.data))
+                localStorage.setItem("sync", "update")
+            } else {
+                localStorage.setItem("flashCards", JSON.stringify(response.data.flashCards))
+            }
         },
       })
     if (localStorage.getItem("sync") === null ){
         localStorage.setItem("sync", "create")
     }
-    else if (localStorage.getItem("sync") === "update"){
+    else if (localStorage.getItem("sync") === "update" && url !== deckUrl){
         setUrl(deckUrl)
         setMethod("PATCH")
     }
     const onSyncClick = () => {
-        if (localStorage.getItem("sync") === "create"){
-            syncMutation.mutate()
-            localStorage.setItem("sync", "1")
-        } else if (localStorage.getItem("sync") === "update"){
-            syncMutation.mutate()
+        if (localStorage.getItem("sync") === "retrieve"){
+            console.log("warn")
         }
         else {
-            console.log("warning")
+            syncMutation.mutate()
         }
     }
-    if (syncMutation.isSuccess === true) {
-        if(localStorage.getItem("sync") === "create"){
-            localStorage.setItem("flashCards", JSON.stringify(syncMutation.data.data))
-        }
-        else {
-            localStorage.setItem("flashCards", JSON.stringify(syncMutation.data.data.flashCards))
-        }
-    }
+
     
     return (
         <div className={vstack({})}>
