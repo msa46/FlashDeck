@@ -9,8 +9,10 @@ import Sync from "./components/Sync"
 
 import { v4 } from 'uuid'
 import { AES } from 'crypto-js'
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
 
+const queryClient = new QueryClient()
 
 function App() {
   const [page, setPage] = useState("main")
@@ -28,11 +30,11 @@ function App() {
   }
   
   if (localStorage.getItem("pid") === null ){
-    const pid = v4()
+    const pid = Math.floor(Math.random() * 1000000000);
     const key = v4()
-    const signedSecret = AES.encrypt(pid, key).toString()
+    const signedSecret = AES.encrypt(String(pid), key).toString()
     
-    localStorage.setItem("pid", pid)
+    localStorage.setItem("pid", String(pid))
     localStorage.setItem("key", key)
     localStorage.setItem("signedSecret", signedSecret)
 
@@ -48,6 +50,7 @@ function App() {
   })
 
   return (
+    <QueryClientProvider client={queryClient}>
     <div className={vstack({
       bg: "stone.900",
       h: "screen",
@@ -98,6 +101,7 @@ function App() {
 
       
     </div>
+    </QueryClientProvider>
   )
 }
 
