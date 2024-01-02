@@ -16,14 +16,13 @@ export default async (req: VercelRequest, res: VercelResponse) => {
         }
     })
     if (flashDeck === null) {
-        res.status(200).send(pid);
         await prisma.flashDeck.create({
             data: {
                 pId: pid,
                 signedSecret: signedSecret,
             }
         });
-        const parsedFlashCards: FlashCard[] = Object.values(JSON.parse(flashCards));
+        const parsedFlashCards: FlashCard[] = Object.values(flashCards);
 
         const newFlashCards: FlashCard[] = []
         for (const flashCard of parsedFlashCards) {

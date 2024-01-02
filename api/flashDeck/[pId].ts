@@ -10,6 +10,7 @@ export default async (req: VercelRequest, res: VercelResponse) => {
             where: {
                 pId: Number(pId),
             },
+            include: {flashCards: true},
 
         });
         if (flashDeck) {
