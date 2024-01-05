@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { FlashCard } from "../types/flashCard"
-import { css } from "../../styled-system/css"
-import { hstack, vstack } from "../../styled-system/patterns"
+import { css } from "@shadow-panda/styled-system/css"
+import { hstack, vstack } from "@shadow-panda/styled-system/patterns"
 
 
 const FlashCards = () => {
@@ -49,10 +49,7 @@ const FlashCards = () => {
             localStorage.setItem("flashCards", JSON.stringify(tempFlashCards))
             setRevealed(false)
             const endIndex = flashCards.length -  1
-            console.log("data are ", index, flashCards)
-            console.log("rand num is: ", givenIndex)
             if (givenIndex !== endIndex){
-                console.log("indices are ", flashCards.length, index)
                 setIndex(index => index + 1)
             }
             else {

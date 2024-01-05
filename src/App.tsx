@@ -1,7 +1,7 @@
 import { useState } from "react"
 
-import { css } from "../styled-system/css"
-import {  divider, hstack, vstack } from "../styled-system/patterns"
+import { css } from "@shadow-panda/styled-system/css"
+import {  divider, hstack, vstack } from "@shadow-panda/styled-system/patterns"
 
 import Edit from "./components/Edit"
 import FlashCards from "./components/FlashCards"

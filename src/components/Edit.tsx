@@ -1,6 +1,6 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import { hstack, vstack } from "../../styled-system/patterns";
-import { css } from "../../styled-system/css";
+import { hstack, vstack } from "@shadow-panda/styled-system/patterns";
+import { css } from "@shadow-panda/styled-system/css";
 import { useEffect, useState } from "react";
 import type { FlashCard } from "../types/flashCard";
 import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
@@ -94,9 +94,7 @@ const Edit = () => {
                 setQuestion(flashCards[0]["question"])
                 setLabel(flashCards[0]["label"])
                 setAnswer(flashCards[0]["answer"])
-                console.log("object length", Object.keys(flashCards).length)
                 if (Object.keys(flashCards).length > 1 ) {
-                    console.log("can go next?")
                     setCanGoNext(true)
                     setCanAddCard(true)
                 }
