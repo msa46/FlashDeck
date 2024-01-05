@@ -13,6 +13,9 @@ export default defineConfig({
   // Files to exclude
   exclude: [],
 
+  // Use React
+  jsxFramework: 'react',
+
   // Useful for theme customization
   theme: {
     extend: {},
@@ -21,5 +24,5 @@ export default defineConfig({
   // The output directory for your css system
   emitPackage: true,
   outdir: '@shadow-panda/styled-system',
-  
+
 });
