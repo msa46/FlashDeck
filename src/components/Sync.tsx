@@ -22,18 +22,21 @@ import { Button } from './ui/button'
 import { Label } from './ui/label'
 
 import { Tooltip } from 'react-tooltip' 
+import { useToast } from './ui/toast/use-toast'
+import { Toaster } from './ui/toast/toaster'
 
 
 
 const Sync = () => {
     const baseUrl = import.meta.env.VITE_API_URL + "/api/flashDeck/"
-    const deckUrl = baseUrl + "/" + localStorage.getItem("pid")
+    const deckUrl = baseUrl + localStorage.getItem("pid")
     const [newPid, setNewPid] = useState(localStorage.getItem("retrieveId") || "")
     const [prevSyncState, setPrevSyncState] = useState(localStorage.getItem("sync") || "")
     const [url, setUrl] = useState(baseUrl)
     const [method, setMethod] = useState("POST")
     const [isModalOpen, setModalOpen] = useState(false);
-    
+    const [syncClicked, setSyncClicked] = useState(false);
+    const { toast } = useToast()    
 
    
     const syncMutation = useMutation({
@@ -66,23 +69,52 @@ const Sync = () => {
         setMethod("PATCH")
     }
     
-    const {refetch} = useQuery({
+    const {data, isPending , isSuccess, isError, refetch} = useQuery({
         queryKey:["flashCards"], 
         queryFn: async () => {
-            const response = await axios.get(baseUrl + "/" + newPid, {validateStatus : () => false})
+            console.log("in query")
+            const response = await axios.get(baseUrl + newPid)
+            console.log("response is:", response)
             if (response.status === 200) {
-                localStorage.setItem("retrieveId", response.data.pId)
-                localStorage.setItem("flashCards", JSON.stringify(response.data.flashCards))
+               
+                console.log("in response")
+                toast({
+                    description: "Retrieved flash cards from " + response.data.pId,
+                })
             }
             
             return response.data
         },
+
+        
+        
         enabled: false
     })
+
+    if (isSuccess && syncClicked && !isPending){
+        setSyncClicked(false)
+        setPrevSyncState("retrieve")
+        localStorage.setItem("retrieveId", data.pId)
+        localStorage.setItem("flashCards", JSON.stringify(data.flashCards))
+        toast({
+            description: "Retrieved flash cards from " + newPid,
+        })
+    }
+    if (isError && syncClicked &&!isPending){
+        setSyncClicked(false)
+        setPrevSyncState("retrieve")
+        console.log("error", data)
+        toast({
+            description: "Could not retrieve flash cards from " + newPid,
+            variant: "destructive",
+        })
+    }
 
     const onSyncClick = () => {
         if (localStorage.getItem("sync") === "retrieve"){
             if (prevSyncState === "retrieve"){
+                console.log("in retrieve")
+                setSyncClicked(true)
                 refetch()
             }
 
@@ -173,6 +205,7 @@ const Sync = () => {
                     w: "full",
                     borderRadius: "lg",
                     textAlign:"left",
+                    color: "white"
                 })}
                 />
                 <Label className={hstack({
@@ -207,6 +240,7 @@ const Sync = () => {
                         </Button>
                 </Label>
             <Tooltip id="sync" />
+            <Toaster />
             </div>
     )
 }

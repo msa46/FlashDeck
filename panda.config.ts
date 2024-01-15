@@ -13,6 +13,13 @@ export default defineConfig({
   // Files to exclude
   exclude: [],
 
+  staticCss: {
+    recipes: {
+      // Load toast variant styles since it cannot be statically analyzed
+      toast: [{ variant: ['*'] }],
+    },
+  },
+
   // Use React
   jsxFramework: 'react',
 
