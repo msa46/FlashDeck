@@ -49,7 +49,7 @@ const FlashCards = () => {
             localStorage.setItem("flashCards", JSON.stringify(tempFlashCards))
             setRevealed(false)
             const endIndex = flashCards.length -  1
-            if (givenIndex !== endIndex){
+            if (index !== endIndex){
                 setIndex(index => index + 1)
             }
             else {

@@ -193,6 +193,7 @@ const Edit = () => {
                 <textarea className={inputStyle}  {...register("answer")} />
                 <input className={css({
                     bg: "indigo.800",
+                    color: "white",
                     p: "2",
                     rounded: "3xl",
                     _hover: {
@@ -201,7 +202,6 @@ const Edit = () => {
                     },
                 })} 
                 type="submit"
-                // value="add"                
                 />
             </form>
 
