@@ -4,6 +4,8 @@ import { css } from "@shadow-panda/styled-system/css";
 import { useEffect, useState } from "react";
 import type { FlashCard } from "../types/flashCard";
 import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
+import { Toaster } from "./ui/toast/toaster";
+import { useToast } from "./ui/toast/use-toast";
 
 
 
@@ -16,6 +18,7 @@ const Edit = () => {
     const [canGoNext, setCanGoNext] = useState(false)
     const [canGoprev, setCanGoPrev] = useState(false)
     const [canAddCard, setCanAddCard] = useState(false)
+    const { toast } = useToast()
     // const [submitName, setSubmitName] = useState("save")
 
     const {register, handleSubmit, reset} = useForm<FlashCard>()
@@ -40,6 +43,9 @@ const Edit = () => {
         }
         setFlashCards(tempFlashCards)
         localStorage.setItem("flashCards", JSON.stringify(flashCards))
+        toast({
+            description: "New flashCard has been added to the deck ",
+        })
         
     }
 
@@ -121,13 +127,13 @@ const Edit = () => {
     })
     
     const moveButtonStyle = css ({
-        bg: "indigo.900",
+        bg: "zinc.500",
         px: "4",
         rounded: "xl",
         mb: "2",
         
         _hover: {
-            bg:"indigo.800",
+            bg:"zinc.600",
         },
         _disabled: {
             opacity: "50%",
@@ -148,13 +154,13 @@ const Edit = () => {
                 </button>
                 <button className={
                     css({
-                        bg: "indigo.900",
+                        bg: "zinc.500",
                         px: "16",
                         mx: "15%",
                         rounded: "lg",
                         mb: "2",
                         _hover: {
-                            bg: "indigo.800",
+                            bg: "zinc.600",
                         },
                         _disabled: {
                             opacity: "50%",
@@ -192,19 +198,19 @@ const Edit = () => {
                 />
                 <textarea className={inputStyle}  {...register("answer")} />
                 <input className={css({
-                    bg: "indigo.800",
+                    bg: "zinc.500",
                     color: "white",
                     p: "2",
                     rounded: "3xl",
                     _hover: {
-                        bg: "indigo.700",
+                        bg: "zinc.600",
                         cursor: "pointer",
                     },
                 })} 
                 type="submit"
                 />
             </form>
-
+            <Toaster />
 
         </div>
     )
